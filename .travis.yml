@@ -2,12 +2,17 @@
 
 language: R
 sudo: false
+dist: trusty
 cache: packages
-r:
-  - oldrel
-  - release
+fortran: false
+
 os:
   - linux
   - osx
+
+r:
+  - oldrel
+  - release
+
 after_success:
   - Rscript -e 'covr::codecov()'
