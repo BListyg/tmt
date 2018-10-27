@@ -1,3 +1,8 @@
+#To-do's:
+#Build out unit tests
+#Fix multi-member code
+#Add CEO data to .csv
+
 #Read in data
 #First row should contain variable name
 #Second row should contain question text, this is removed
@@ -85,32 +90,6 @@ dim(sec1_composites) == c(nrow(MERGED_DATA),length(c("stratclar",'stratcom','com
 #This section creates 7 graph objects using igraph for each of these network variables.
 #The OASIS data had 29 responses but had each person rate 60 people on various interpersonal variables. My assumption is that there will be the number of respondents will rate an equal number of their peers, creating a nPerson x nPerson adjacency matrix. To accomodate any misalignment between the number of people being rated and the number of people completing the survey, I have code attached to rbind NA's to the rater x ratee matrix making it easier to create an adjacency matrix for network statistics / visualizations
 
-#This function adds a 0 to the diagonal of a NxN matrix to make it a N+1 x N+1 matrix
-#Given a person can't evaluate themselves on network questions, it makes the self-evaluation (diagnoal) 0.
-# adj_matrix <- function(mat){
-#   matrix(apply(X = matrix(1:ncol(mat)),
-#                MARGIN = 1,
-#                FUN = function(x,y)
-#                {
-#                  c(y[1:x-1,x],
-#                    0,
-#                    y[x:ncol(y),x])},
-#                y=mat
-#   ), nrow=nrow(mat)+1, ncol=ncol(mat)+1)
-# }
-
-#This function subsets the network variables from the survey, adds NAs to ensure the matrix is square, uses the previous function to make an adjacency matrix, and then makes a graph object using igraph
-# return_adj_matrix <- function(x){
-#   
-#   subset_matrix <- oasisData[,grep(pattern = x, x = colnames(oasisData))]
-#   
-#   na_matrix <- matrix(NA, nrow = ncol(subset_matrix) - nrow(subset_matrix), ncol = ncol(subset_matrix)) %>% data.frame
-#   
-#   colnames(na_matrix) <- colnames(subset_matrix)
-#   
-#   return(list(x,adj_matrix(rbind(subset_matrix,na_matrix)) %>% apply(., 2, as.numeric) %>% graph_from_adjacency_matrix))
-# }
-
 #This section applies the previous function over the network variables
 #Creates a single list of igraph objects that can be plotted or used to compute network scores
 adj_matrix_list <- apply(X = matrix(c("know_",
@@ -133,8 +112,7 @@ adj_matrix_list <- setNames(object = adj_matrix_list, nm = c("know_",
 
 ######
 
-#Sections 3 and in progress and could use clarification
-
+#Sections 3
 #Skip A_task and I_task, need help
 
 #FTrole
@@ -150,7 +128,7 @@ outersect <- function(x, y) {
          setdiff(y, x)))
 }
 
-
+#rq = "Relationship Quality", creates adjacency matrix for each team. Is conditonal on the members of that team. See Qualtrics for order that rated team members appear in.
 rq <- MERGED_DATA[,c('Name','FTname','FTsize',
                      paste("FT",c(1:8),sep = ''),
                      grep(pattern = 'FTrq',x = colnames(MERGED_DATA),value = T))]
