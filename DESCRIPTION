@@ -9,6 +9,9 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat,
+Imports:
+    ggplot2
+Suggests: 
+    testthat,
     covr
 RoxygenNote: 6.1.0
